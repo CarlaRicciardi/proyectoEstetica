@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   phone: { type: Number, required: true },
-  role: { type: String, default: "user" },
+  role: { type: String, default: "user", required: true },
   //appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
 });
 

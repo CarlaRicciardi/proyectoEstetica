@@ -3,34 +3,38 @@ const bcrypt = require("bcryptjs")
 
 const signIn = async(newUser)=>{
     try {
-        let {email} = newUser     
+        let {email,  password, name, phone, role} = newUser     
+        
 
         //check if user exists
         //debería responder el controller?
         let user = await User.findOne({email})
         if(user){
-            return res.status(400).json({message: 'user already exists'})
+            const message = {message: 'user already exists'}
+            return message
         }
-        
         //hash password
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
-
+        
  
         let registerNew = await new User({
-                name: newUser.name,
-                email: newUser.email,
+                name: name,
+                email: email,
                 password: hashPassword,
-                role: newUser.role,
-                phone: newUser.phone
+                role:role,
+                phone: phone
             }).save()
+            console.log(newUser)
 
             //responder controller
-            return res.status(200).json({success:true, message:'User succesfully created'});
+            const message = {success:true, message:'User succesfully created'}
+            return message
 
         }   catch (err) {
                 //responder controller
-                return res.status(500).json({success:false, message:'Internal server error, try again'});
+                const messageError = {success:false, message:'Internal server error, try again'}
+                return messageError
 
     }
 }
