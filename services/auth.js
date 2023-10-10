@@ -1,42 +1,51 @@
-const User = require('../models/userSchema.js');
-const bcrypt = require("bcryptjs")
+
+const {DBUser} = require('../models/user.js')
+const userDB = new DBUser;
+const jwt = require('jsonwebtoken') ;
+const bcrypt = require('bcryptjs') 
+
+//al momento de registrar un usuario, según sea un paciente o doctor lo guarda en la colección correspondiente
+const generateToken = (user)=>{
+    return jwt.sign({id:user._id, role: user.role}, process.env.JWT_SECRET_KEY, {
+        expiresIn:'15d'
+    })
+   
+    //cambiar la secret key
+}
+
 
 const signIn = async(newUser)=>{
-    try {
-        let {email,  password, name, phone, role} = newUser     
-        
+const result = await userDB.saveNew(newUser)
+return result
+}
 
-        //check if user exists
-        //debería responder el controller?
-        let user = await User.findOne({email})
-        if(user){
-            const message = {message: 'user already exists'}
+const login = async(email, reqPassword)=>{
+
+    try {
+        let user = await userDB.findByEmail({email});
+        //check if user exists or not
+        if(!user){
+            let message =  {message: 'User nor found'}
             return message
         }
-        //hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt);
-        
- 
-        let registerNew = await new User({
-                name: name,
-                email: email,
-                password: hashPassword,
-                role:role,
-                phone: phone
-            }).save()
-            console.log(newUser)
-
-            //responder controller
-            const message = {success:true, message:'User succesfully created'}
+    
+        //compare password
+        const isPasswordMatch = await bcrypt.compare(reqPassword, user.password);
+        if(!isPasswordMatch){
+            let message = {status: false, message: 'Incorrect Password'}
             return message
+        }
+        //get authentication token
+        const token = generateToken(user)
+        const {password, role, ...rest} = user._doc
+        const message = {status: true, message: 'Succesful Login', token, data:{...rest}, role}
+        return message
 
-        }   catch (err) {
-                //responder controller
-                const messageError = {success:false, message:'Internal server error, try again'}
-                return messageError
+    } catch (err) {
+        const errorMessage = {status: false, message: 'Failed to login'}
+        return errorMessage
 
     }
 }
 
-module.exports = {signIn}
+module.exports = {signIn, login}

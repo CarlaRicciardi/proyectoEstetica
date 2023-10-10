@@ -1,11 +1,13 @@
-const User = require('../models/userSchema.js');
+const {DBUser} = require('../models/user.js')
+const userDB = new DBUser
 
 const createUser = async()=>{
 
 }
 
 const getAllUsers = async()=>{
-    
+    const allUsers = await userDB.getAll()
+    return allUsers
 }
 
 const getSingleUser = async()=>{

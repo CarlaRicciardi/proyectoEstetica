@@ -5,7 +5,7 @@ const StaffSchema = new mongoose.Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   phone: { type: Number, required: true },
-  role: { type: String, default: "user" },
+  role: { type: String, default: "staff" },
   photo: { type: String },
   service: { type: String },   // ver de que tome el ID del servicio en la colección Service, de la forma type: mongoose.Types.ObjectId,
   bio: { type: String, maxLength: 150 },

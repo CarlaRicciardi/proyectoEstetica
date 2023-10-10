@@ -1,5 +1,5 @@
 
-const {signIn} = require('../services/auth.js');
+const {signIn, login} = require('../services/auth.js');
 
 const signInController = async (req, res)=>{
     const {email, password, name, phone, role} = req.body;
@@ -9,4 +9,10 @@ const signInController = async (req, res)=>{
     res.json(result);
 }
 
-module.exports = {signInController}
+const loginController = async (req, res)=>{
+    const {email, password} = req.body;
+    let result = await login(email, password)
+    res.json(result)
+}
+
+module.exports = {signInController, loginController}
