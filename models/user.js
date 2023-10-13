@@ -24,7 +24,7 @@ class DBUser {
     */
   
     async findById(id) {
-      const user = this.model.findOne({ _id: id });
+      const user = this.model.findOne({ _id: id});
       return user;
     }
 
@@ -63,20 +63,37 @@ class DBUser {
                 return messageError
         }
     }
-  /*
-    async findProdUpdate(obj) {
-      const modificarProdDB = this.modeloProd.findOneAndUpdate(
-        { _id: obj.idprod },
+  
+    
+
+    async updatePhone({email}, phone){
+      const updatePhone = await this.model.findOneAndUpdate(
+        {email},
+        {phone: phone} ,
         {
-          title: obj.newTitle,
-          price: obj.newPrice,
-          thumbnail: obj.newThumbnail,
-          category: obj.newCategory,
+          returnOriginal: false
         }
-      );
-      return modificarProdDB;
+      )
+        return updatePhone.phone
     }
-    */
+
+    async updatePassword({email}, password){
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
+      const updatePassword = await this.model.findOneAndUpdate(
+        {email},
+        {password: hashPassword},
+        {
+          returnOriginal: false
+        }
+      )
+        return updatePassword.password
+    }
+
+   async deleteByEmail(email){
+    const deleteUser = await this.model.deleteOne({ email });
+      return "deleted successfully";
+   }
   
     async deleteById(id) {
       const deleteUser = await this.model.deleteOne({ _id: id });

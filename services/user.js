@@ -10,16 +10,30 @@ const getAllUsers = async()=>{
     return allUsers
 }
 
-const getSingleUser = async()=>{
-    
+const getUserByEmail = async({email})=>{
+
+    const user = await userDB.findByEmail({email})
+    return user;
 }
 
-const updateUser = async()=>{
-    
+const getUserById = async(id)=>{
+    const user = await userDB.findById(id)
+    return user;
 }
 
-const deleteUser = async()=>{
-    
+const updateUserPhone = async({email}, phone)=>{
+    const updatedPhone = await userDB.updatePhone({email}, phone)
+    return updatedPhone
 }
 
-module.exports = {createUser, getAllUsers, getSingleUser, updateUser, deleteUser}
+const updateUserPassword = async({email}, password)=>{
+const updatedPassword = await userDB.updatePassword({email}, password)
+return updatedPassword
+}
+
+const deleteUser = async(email)=>{
+    const deleted = await userDB.deleteByEmail(email)
+    return deleted
+}
+
+module.exports = {createUser, getAllUsers, getUserByEmail, getUserById, updateUserPhone, updateUserPassword, deleteUser}
