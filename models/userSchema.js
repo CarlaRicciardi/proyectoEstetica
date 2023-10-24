@@ -9,4 +9,5 @@ const UserSchema = new mongoose.Schema({
   //appointments: [{ type: mongoose.Types.ObjectId, ref: "Appointment" }],
 });
 
-module.exports =  mongoose.model("User", UserSchema);
+const User = mongoose.model("users", UserSchema);
+module.exports =  User;
