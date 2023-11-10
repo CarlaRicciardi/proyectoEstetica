@@ -1,5 +1,8 @@
 const  mongoose = require("mongoose");
 
+//esquema para crear una cita entre un profesional y un usuario
+//la colección de este modelo operaría como agenda para todos los staff de Nails
+//si quiero ver la agenda de turnos de 1 staff, tengo que filtrar por staff id
 const appointmentNailsSchema = new mongoose.Schema(
   {
     staff: {

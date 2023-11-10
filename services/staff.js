@@ -51,5 +51,51 @@ const loginStaff = async(email, reqPassword)=>{
     }
 }
 
+const getAllStaff = async ()=>{
+    try{
+    const all = await staffDB.getAll();
+    return all
+    } catch(err){
+        logger.log('error', err)
+    }
+}
 
-module.exports = {signInStaff, findStaffByEmail, loginStaff}
+const findStaffByService = async (service)=>{
+    try{
+        const staff = await staffDB.listByService(service)
+        return staff
+    }
+    catch(err){
+        
+    }
+}
+
+const getStaffByEmail = async({email})=>{
+    try{
+        const staff = await staffDB.findByEmail({email});
+        return staff;
+    }
+    catch(err){
+        logger.log('error', err)
+    }
+    
+
+
+}
+
+const getStaffById = async(id)=>{
+    try{
+        const staff = await staffDB.findById(id);
+        return staff;
+    }
+    catch(err){
+        logger.log('error', err)
+    }
+    
+
+
+}
+
+
+
+module.exports = {signInStaff, findStaffByEmail, loginStaff, getAllStaff, findStaffByService, getStaffByEmail, getStaffById}

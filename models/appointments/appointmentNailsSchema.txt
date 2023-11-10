@@ -1,6 +1,6 @@
 staff: es un id referido a la colección de profesionales
 user:es un id referido a la colección de users
-service: array opciones de subservicio (dentro de este mismo servicio)
+subservice: array opciones de subservicio (dentro de este mismo servicio)
 appointmentDate: fecha y horario
 price: precio del subservicio (se tomaría de una lista de precios en una colección manejada por Admin)
 paymentMethod: selección del método de pago

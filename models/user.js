@@ -14,14 +14,7 @@ class DBUser {
       //ver de no traer las contraseñas
       return all;
     }
-    /*
-    async listCategory(categorySelect) {
-      const categoryProductos = await this.modeloProd
-        .find({ category: categorySelect })
-        .exec();
-      return categoryProductos;
-    }
-    */
+
   
     async findById(id) {
       const user = this.model.findOne({ _id: id});
